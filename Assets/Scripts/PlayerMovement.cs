@@ -13,10 +13,13 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody2D _rigidbody2D;
     Vector2 _starttouch;
     Vector2 _endtouch;
+    Quaternion _rt;
     float rotation;
     bool _grounded;
+
     void Start()
     {
+        Screen.sleepTimeout = 0;
         _grounded = true;
         Input.gyro.enabled = true;
         _rigidbody2D = GetComponent<Rigidbody2D>();
@@ -30,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
 
         string state = Swipe();
 
-        if(state == "up" && _grounded)
+        if (state == "up" && _grounded)
         {
             _rigidbody2D.AddForce(new Vector2(0, _force), ForceMode2D.Impulse);
             _grounded = false;
@@ -39,38 +42,38 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         rotation = math.clamp(Input.gyro.rotationRateUnbiased.z, -1f, 1f) + rotation;
-        Physics2D.gravity = new Vector2(-rotation * _speed, -9.8f);
+        _rt = Input.gyro.attitude;
+
+        Physics2D.gravity = new Vector2(_rt.x * _speed, -9.8f);
         _cam.transform.rotation = Quaternion.Euler(0f, 0f, -rotation);
-        //-math.clamp(Input.gyro.rotationRateUnbiased.z, -1f, 1f) * 10f
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        
-        if(collision.gameObject.tag == "floor")
+        if (collision.gameObject.tag == "floor")
         {
-            print("fs");
             _grounded = true;
         }
     }
     string Swipe()
     {
-        if(Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
             _starttouch = Input.GetTouch(0).position;
         }
-        if(Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
         {
             _endtouch = Input.GetTouch(0).position;
 
-            if(_endtouch.y > _starttouch.y)
+            if (_endtouch.y > _starttouch.y)
             {
                 return "up";
             }
-            if(_endtouch.y < _starttouch.y)
+            if (_endtouch.y < _starttouch.y)
             {
                 return "down";
             }
         }
+
         return "null";
     }
 }

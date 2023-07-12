@@ -295,7 +295,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cam: {fileID: 819709556}
-  _speed: 1
+  _speed: 50
   _force: 8
 --- !u!1 &369428173
 GameObject:
