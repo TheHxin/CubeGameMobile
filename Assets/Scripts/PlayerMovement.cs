@@ -6,7 +6,10 @@ using UnityEngine.EventSystems;
 
 public class PlayerMovement : MonoBehaviour
 {
+    #region Fields
     [SerializeField] Camera _cam;
+    [SerializeField] float _camrotatesens;
+    [SerializeField] float _sensitivity;
     [SerializeField] float _speed;
     [SerializeField] float _force;
 
@@ -14,9 +17,9 @@ public class PlayerMovement : MonoBehaviour
     Vector2 _starttouch;
     Vector2 _endtouch;
     Quaternion _rt;
-    float rotation;
     bool _grounded;
-
+    #endregion
+    #region Flow
     void Start()
     {
         Screen.sleepTimeout = 0;
@@ -41,17 +44,25 @@ public class PlayerMovement : MonoBehaviour
     }
     void FixedUpdate()
     {
-        rotation = math.clamp(Input.gyro.rotationRateUnbiased.z, -1f, 1f) + rotation;
         _rt = Input.gyro.attitude;
-
-        Physics2D.gravity = new Vector2(_rt.x * _speed, -9.8f);
-        _cam.transform.rotation = Quaternion.Euler(0f, 0f, -rotation);
+        
+        Physics2D.gravity = new Vector2(_rt.x * _speed * _sensitivity, -9.8f);
+        _cam.transform.rotation = Quaternion.Euler(0f, 0f, _rt.x * _camrotatesens);
     }
+    #endregion
+    #region LogicFunction
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "floor")
         {
             _grounded = true;
+        }
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "floor")
+        {
+            _grounded = false;
         }
     }
     string Swipe()
@@ -76,4 +87,5 @@ public class PlayerMovement : MonoBehaviour
 
         return "null";
     }
+    #endregion
 }
