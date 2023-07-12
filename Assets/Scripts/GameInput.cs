@@ -11,20 +11,21 @@ public class GameInput : MonoBehaviour
 
     private void Start()
     {
-        if (state == "gyro")
-        {
+        //if (state == "gyro")
+        //{
             Input.gyro.enabled = true;
-        }
+        //}
     }
     private void Update()
     {
-        if (state == "gyro")
-        {
+        //if (state == "gyro")
+        //{
             Axis = Input.gyro.rotationRateUnbiased.x * Time.deltaTime;
-        }
-        else
-        {
-            Axis = Input.GetAxis("Horizontal") * Time.deltaTime;
-        }
+        print(Axis);
+        //}
+        //else
+        //{
+        //    Axis = Input.GetAxis("Horizontal") * Time.deltaTime;
+        //}
     }
 }
