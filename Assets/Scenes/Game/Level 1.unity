@@ -378,12 +378,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1201913237}
     - target: {fileID: 5398161987695728310, guid: fe844a1a3cabab94981a5893484885c4, type: 3}
+      propertyPath: _time
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5398161987695728310, guid: fe844a1a3cabab94981a5893484885c4, type: 3}
       propertyPath: _force
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5398161987695728310, guid: fe844a1a3cabab94981a5893484885c4, type: 3}
       propertyPath: _sensitivity
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5398161987695728310, guid: fe844a1a3cabab94981a5893484885c4, type: 3}
+      propertyPath: _camrotatespeed
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 6984470894322431638, guid: fe844a1a3cabab94981a5893484885c4, type: 3}
       propertyPath: m_Name

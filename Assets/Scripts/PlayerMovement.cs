@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
 {
     #region Fields
     [SerializeField] Camera _cam;
+    [SerializeField] float _camrotatespeed;
     [SerializeField] float _camrotatesens;
     [SerializeField] float _sensitivity;
     [SerializeField] float _speed;
@@ -16,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody2D _rigidbody2D;
     Vector2 _starttouch;
     Vector2 _endtouch;
-    Quaternion _rt;
+    Vector3 _rt;
     bool _grounded;
     #endregion
     #region Flow
@@ -44,10 +45,11 @@ public class PlayerMovement : MonoBehaviour
     }
     void FixedUpdate()
     {
-        _rt = Input.gyro.attitude;
-        
+        _rt = Input.acceleration;
+
         Physics2D.gravity = new Vector2(_rt.x * _speed * _sensitivity, -9.8f);
-        _cam.transform.rotation = Quaternion.Euler(0f, 0f, _rt.x * _camrotatesens);
+        _cam.transform.rotation = Quaternion.Lerp(_cam.transform.rotation, Quaternion.Euler(0 , 0 , _rt.x * _camrotatesens) , _camrotatespeed * Time.deltaTime);
+
     }
     #endregion
     #region LogicFunction
@@ -86,6 +88,23 @@ public class PlayerMovement : MonoBehaviour
         }
 
         return "null";
+    }
+    void ResetGyro()
+    {
+        Input.gyro.enabled = false;
+        Input.gyro.enabled = true;
+    }
+    int GetMark(float value)
+    {
+        if (value > 0)
+        {
+            return 1;
+        }
+        if (value < 0)
+        {
+            return -1;
+        }
+        return 0;
     }
     #endregion
 }
