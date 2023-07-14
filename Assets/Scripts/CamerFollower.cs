@@ -5,7 +5,7 @@ using UnityEngine;
 public class CamerFollower : MonoBehaviour
 {
     #region Fields
-    [SerializeField] GameObject _player;
+    public GameObject _player;
     [SerializeField] float _time;
 
     private Vector3 _dampVelocity = Vector3.zero;

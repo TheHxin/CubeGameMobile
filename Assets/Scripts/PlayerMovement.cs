@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class PlayerMovement : MonoBehaviour
 {
     #region Fields
-    [SerializeField] Camera _cam;
+    public Camera _cam;
     [SerializeField] float _camrotatespeed;
     [SerializeField] float _camrotatesens;
     [SerializeField] float _sensitivity;
@@ -48,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
         _rt = Input.acceleration;
 
         Physics2D.gravity = new Vector2(_rt.x * _speed * _sensitivity, -9.8f);
-        _cam.transform.rotation = Quaternion.Lerp(_cam.transform.rotation, Quaternion.Euler(0 , 0 , _rt.x * _camrotatesens) , _camrotatespeed * Time.deltaTime);
+        _cam.transform.rotation = Quaternion.Lerp(_cam.transform.rotation, Quaternion.Euler(0, 0, _rt.x * _camrotatesens), _camrotatespeed * Time.deltaTime);
 
     }
     #endregion
