@@ -9,17 +9,15 @@ public class CamerManager : MonoBehaviour
     [SerializeField] float Duration = 2f;
 
     private Camera cam;
+    private bool SetFOVRunning = false;
 
-    private void Awake()
-    {
-        cam = GetComponent<Camera>();
-        cam.orthographicSize = InitialSize;
-
-        CameraView();
-    }
     public void CameraView()
     {
-        StopAllCoroutines();
+        if (SetFOVRunning)
+        {
+            StopAllCoroutines();
+        }
+        cam = GetComponent<Camera>();
         cam.orthographicSize = InitialSize;
         transform.position = new Vector3(0, 0, -10);
 
@@ -27,6 +25,7 @@ public class CamerManager : MonoBehaviour
     }
     IEnumerator SetCamerFOV(float v_start, float v_end, float duration)
     {
+        SetFOVRunning = true;
         float elapsed = 0.0f;
         while (elapsed < duration)
         {
@@ -35,5 +34,6 @@ public class CamerManager : MonoBehaviour
             yield return null;
         }
         cam.orthographicSize = v_end;
+        SetFOVRunning = false;
     }
 }
