@@ -30,10 +30,10 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            _rigidbody2D.AddForce(new Vector2(0, _force), ForceMode2D.Impulse);
-        }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    _rigidbody2D.AddForce(new Vector2(0, _force), ForceMode2D.Impulse);
+        //}
 
         string state = Swipe();
 

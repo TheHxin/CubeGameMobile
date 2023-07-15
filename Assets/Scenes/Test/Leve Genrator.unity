@@ -133,7 +133,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2236124579072162217, guid: b61e9b591ec0d46499771bbc7c9b25d0, type: 3}
       propertyPath: orthographic size
-      value: 20
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 4728899179492605636, guid: b61e9b591ec0d46499771bbc7c9b25d0, type: 3}
       propertyPath: _player
@@ -224,9 +224,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Floor: {fileID: 5230781953175097551, guid: 7454438eb3a55444e9a72f075cf6398a, type: 3}
   Wall: {fileID: 99590756751692655, guid: aa6ed14505c48a64596d21b15a8abaa4, type: 3}
+  Barrel: {fileID: 1103669786374548719, guid: f872a69d2e73c4b4892e80d83518d68b, type: 3}
+  _PlayerSpawnYOffset: 2
+  _PlatformSize: 20
+  _PlatformSpawnSpace: 10
   _WallXOffset: 30
+  _BarrelYOffset: 0.75
   _PlatformNumber: 10
-  _BarrelNumber: 10
+  _BarrelNumber: 0100000004000000
 --- !u!4 &336932288
 Transform:
   m_ObjectHideFlags: 0
