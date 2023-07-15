@@ -37,6 +37,8 @@ public class LevelGen : MonoBehaviour
         _PlatformPosition = new List<Vector3>();
         _Clones = new List<GameObject>();
 
+        CheckPoints = 0;
+
         GenerateLevel();
 
         var PlayerSpawner = GetComponent<PlayerSpawner>();
@@ -54,13 +56,12 @@ public class LevelGen : MonoBehaviour
     }
     void ReGenerateLevel()
     {
+        CheckPoints = 0;
         DeleteClones();
         GenerateLevel();
     }
     void GenerateLevel()
     {
-        CheckPoints = _PlatformNumber;
-
         GenerateBoarder();
         GenerateFloor();
         GenerateBarrel();
@@ -158,10 +159,12 @@ public class LevelGen : MonoBehaviour
             if(position.x == 20)
             {
                 _Clones.Add(Instantiate(CheckPoint, new Vector3((position.x + (_PlatformSize / 2)) - _CheckPointXOffset, (position.y - _BarrelYOffset) + _CheckPointYOffset, 0), CheckPoint.transform.rotation));
+                CheckPoints = CheckPoints + 1;
             }
             if(position.x == -20)
             {
                 _Clones.Add(Instantiate(CheckPoint, new Vector3((position.x - (_PlatformSize / 2)) + _CheckPointXOffset, (position.y - _BarrelYOffset) + _CheckPointYOffset, 0), CheckPoint.transform.rotation));
+                CheckPoints = CheckPoints + 1;
             }
             //if(position.x == 0)
             //{

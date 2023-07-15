@@ -9,7 +9,7 @@ public class CheckPointScript : MonoBehaviour
         if(collision.gameObject.tag == "Player")
         {
             collision.gameObject.GetComponent<PlayerLogic>().Score = collision.gameObject.GetComponent<PlayerLogic>().Score + 1;
-            Destroy(this);
+            Destroy(gameObject);
         }
     }
 }
