@@ -10,12 +10,15 @@ public class LevelGen : MonoBehaviour
     [SerializeField] GameObject Floor;
     [SerializeField] GameObject Wall;
     [SerializeField] GameObject Barrel;
+    [SerializeField] GameObject CheckPoint;
 
     [SerializeField] float _PlayerSpawnYOffset = 2f;
 
     [SerializeField] float _PlatformSize = 20f;
     [SerializeField] float _PlatformSpawnSpace = 10f;
     [SerializeField] float _WallXOffset;
+    [SerializeField] float _CheckPointXOffset = 1f;
+    [SerializeField] float _CheckPointYOffset = 1f;
     [SerializeField] float _BarrelYOffset = 0.75f;
 
     [SerializeField] int _PlatformNumber;
@@ -25,6 +28,8 @@ public class LevelGen : MonoBehaviour
     private List<Vector3> _PlatformPosition;
     private List<GameObject> _Clones;
     private System.Random rn;
+
+    public static int CheckPoints { get; set; }
 
     private void Awake()
     {
@@ -54,17 +59,20 @@ public class LevelGen : MonoBehaviour
     }
     void GenerateLevel()
     {
+        CheckPoints = _PlatformNumber;
+
         GenerateBoarder();
         GenerateFloor();
-       GenerateBarrel();
+        GenerateBarrel();
+        GenerateCheckPoint();
     }
     void DeleteClones()
     {
         _PlatformPosition.Clear();
 
-        foreach(var clone in _Clones)
+        foreach (var clone in _Clones)
         {
-            Destroy(clone);    
+            Destroy(clone);
         }
     }
     void GenerateBoarder()
@@ -88,7 +96,7 @@ public class LevelGen : MonoBehaviour
             {
                 case 1:
                     _Clones.Add(Instantiate(Floor, new Vector3(-20, s * -_PlatformSpawnSpace, 0), Floor.transform.rotation));
-                    
+
                     if (s == 1)
                     {
                         _FirstPosition = new Vector3(-20, (s * -_PlatformSpawnSpace) + _PlayerSpawnYOffset, 0);
@@ -102,7 +110,7 @@ public class LevelGen : MonoBehaviour
 
                 case 2:
                     _Clones.Add(Instantiate(Floor, new Vector3(0, s * -_PlatformSpawnSpace, 0), Floor.transform.rotation));
-                    
+
                     if (s == 1)
                     {
                         _FirstPosition = new Vector3(0, (s * -_PlatformSpawnSpace) + _PlayerSpawnYOffset, 0);
@@ -116,7 +124,7 @@ public class LevelGen : MonoBehaviour
 
                 case 3:
                     _Clones.Add(Instantiate(Floor, new Vector3(20, s * -_PlatformSpawnSpace, 0), Floor.transform.rotation));
-                    
+
                     if (s == 1)
                     {
                         _FirstPosition = new Vector3(20, (s * -_PlatformSpawnSpace) + _PlayerSpawnYOffset, 0);
@@ -141,6 +149,24 @@ public class LevelGen : MonoBehaviour
                 float x = _PlatformSize / barrelNumber;
                 _Clones.Add(Instantiate(Barrel, new Vector3((position.x - (_PlatformSize / 2)) + (x * (float)(Convert.ToDouble(s) - 0.5)), position.y, 0), Barrel.transform.rotation));
             }
+        }
+    }
+    void GenerateCheckPoint()
+    {
+        foreach (var position in _PlatformPosition)
+        {
+            if(position.x == 20)
+            {
+                _Clones.Add(Instantiate(CheckPoint, new Vector3((position.x + (_PlatformSize / 2)) - _CheckPointXOffset, (position.y - _BarrelYOffset) + _CheckPointYOffset, 0), CheckPoint.transform.rotation));
+            }
+            if(position.x == -20)
+            {
+                _Clones.Add(Instantiate(CheckPoint, new Vector3((position.x - (_PlatformSize / 2)) + _CheckPointXOffset, (position.y - _BarrelYOffset) + _CheckPointYOffset, 0), CheckPoint.transform.rotation));
+            }
+            //if(position.x == 0)
+            //{
+            //    _Clones.Add(Instantiate(CheckPoint, new Vector3(0, (position.y - _BarrelYOffset + 1) + _CheckPointYOffset, 0), CheckPoint.transform.rotation));
+            //}
         }
     }
 }
