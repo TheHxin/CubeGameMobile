@@ -101,11 +101,11 @@ public class LevelGen : MonoBehaviour
     {
         for (int s = _PlatformNumber; s > 0; s--)
         {
-            _Clones.Add(Instantiate(Wall, new Vector3((Wall.transform.position.x + _WallXOffset), Wall.transform.position.y + (s * -_PlatformNumber), 0), Wall.transform.rotation));
+            _Clones.Add(Instantiate(Wall, new Vector3((Wall.transform.position.x + _WallXOffset), Wall.transform.position.y + (-s * 10), 0), Wall.transform.rotation));
         }
         for (int s = _PlatformNumber; s > 0; s--)
         {
-            _Clones.Add(Instantiate(Wall, new Vector3((Wall.transform.position.x - _WallXOffset), Wall.transform.position.y + (s * -_PlatformNumber), 0), Wall.transform.rotation));
+            _Clones.Add(Instantiate(Wall, new Vector3((Wall.transform.position.x - _WallXOffset), Wall.transform.position.y + (-s * 10), 0), Wall.transform.rotation));
         }
     }
     void GenerateFloor()

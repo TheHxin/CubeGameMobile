@@ -244,7 +244,7 @@ MonoBehaviour:
   _CheckPointXOffset: 1
   _CheckPointYOffset: 1
   _BarrelYOffset: 0.75
-  _PlatformNumber: 10
+  _PlatformNumber: 0
   _BarrelNumber: 0100000004000000
   _PlatformSkipChance: 0100000003000000
 --- !u!4 &336932288
