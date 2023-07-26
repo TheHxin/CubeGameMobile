@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class LevelGen : MonoBehaviour
@@ -11,6 +12,8 @@ public class LevelGen : MonoBehaviour
     [SerializeField] GameObject Wall;
     [SerializeField] GameObject Barrel;
     [SerializeField] GameObject CheckPoint;
+
+    [SerializeField] string Difficulty;
 
     [SerializeField] float _PlayerSpawnYOffset = 2f;
 
@@ -21,8 +24,9 @@ public class LevelGen : MonoBehaviour
     [SerializeField] float _CheckPointYOffset = 1f;
     [SerializeField] float _BarrelYOffset = 0.75f;
 
-    [SerializeField] int _PlatformNumber;
-    [SerializeField] int[] _BarrelNumber;
+    public int _PlatformNumber;
+    public int[] _BarrelNumber;
+    public int[] _PlatformSkipChance;
 
     private Vector3 _FirstPosition;
     private List<Vector3> _PlatformPosition;
@@ -54,6 +58,22 @@ public class LevelGen : MonoBehaviour
             PlayerSpawner.Spawn(_FirstPosition);
         }
     }
+    bool PlatformSkip()
+    {
+        int x = 2;
+        int res = rn.Next(_PlatformSkipChance[0], _PlatformSkipChance[1]);
+
+        if (res == x)
+        {
+            return true;
+        }
+        if (res != x)
+        {
+            return false;
+        }
+
+        return false;
+    }
     void ReGenerateLevel()
     {
         CheckPoints = 0;
@@ -62,6 +82,7 @@ public class LevelGen : MonoBehaviour
     }
     void GenerateLevel()
     {
+        GetComponent<DifficultyManager>().CalDificulty(this, Difficulty);
         GenerateBoarder();
         GenerateFloor();
         GenerateBarrel();
@@ -90,7 +111,7 @@ public class LevelGen : MonoBehaviour
     void GenerateFloor()
     {
         for (int s = _PlatformNumber; s > 0; s--)
-        {
+        { 
             int x = rn.Next(1, ((Convert.ToInt32(_WallXOffset) * 2) / 20) + 1);
 
             switch (x)
@@ -143,12 +164,16 @@ public class LevelGen : MonoBehaviour
     {
         foreach (var position in _PlatformPosition)
         {
-            int barrelNumber = rn.Next(_BarrelNumber[0], _BarrelNumber[1]);
-
-            for (int s = barrelNumber; s > 0; s--)
+            bool res = PlatformSkip();
+            if (res)
             {
-                float x = _PlatformSize / barrelNumber;
-                _Clones.Add(Instantiate(Barrel, new Vector3((position.x - (_PlatformSize / 2)) + (x * (float)(Convert.ToDouble(s) - 0.5)), position.y, 0), Barrel.transform.rotation));
+                int barrelNumber = rn.Next(_BarrelNumber[0], _BarrelNumber[1]);
+
+                for (int s = barrelNumber; s > 0; s--)
+                {
+                    float x = _PlatformSize / barrelNumber;
+                    _Clones.Add(Instantiate(Barrel, new Vector3((position.x - (_PlatformSize / 2)) + (x * (float)(Convert.ToDouble(s) - 0.5)), position.y, 0), Barrel.transform.rotation));
+                }
             }
         }
     }

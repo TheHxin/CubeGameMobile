@@ -209,6 +209,7 @@ GameObject:
   m_Component:
   - component: {fileID: 336932288}
   - component: {fileID: 336932287}
+  - component: {fileID: 336932292}
   - component: {fileID: 336932289}
   - component: {fileID: 336932290}
   - component: {fileID: 336932291}
@@ -235,6 +236,7 @@ MonoBehaviour:
   Wall: {fileID: 99590756751692655, guid: aa6ed14505c48a64596d21b15a8abaa4, type: 3}
   Barrel: {fileID: 1103669786374548719, guid: f872a69d2e73c4b4892e80d83518d68b, type: 3}
   CheckPoint: {fileID: 750447540}
+  Difficulty: easy
   _PlayerSpawnYOffset: 2
   _PlatformSize: 20
   _PlatformSpawnSpace: 10
@@ -244,6 +246,7 @@ MonoBehaviour:
   _BarrelYOffset: 0.75
   _PlatformNumber: 10
   _BarrelNumber: 0100000004000000
+  _PlatformSkipChance: 0100000003000000
 --- !u!4 &336932288
 Transform:
   m_ObjectHideFlags: 0
@@ -299,6 +302,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _TextScore: {fileID: 375904314}
   _Player: {fileID: 1156061124}
+--- !u!114 &336932292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 336932286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d183144da288984d91aba8e7a1fa5d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &338829992 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8142341782304260828, guid: b61e9b591ec0d46499771bbc7c9b25d0, type: 3}
@@ -442,7 +457,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -25}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &375904314
