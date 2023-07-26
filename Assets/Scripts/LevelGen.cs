@@ -165,7 +165,7 @@ public class LevelGen : MonoBehaviour
         foreach (var position in _PlatformPosition)
         {
             bool res = PlatformSkip();
-            if (res)
+            if (res == false)
             {
                 int barrelNumber = rn.Next(_BarrelNumber[0], _BarrelNumber[1]);
 
