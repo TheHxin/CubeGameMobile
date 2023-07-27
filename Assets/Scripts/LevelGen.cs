@@ -11,7 +11,6 @@ public class LevelGen : MonoBehaviour
     [SerializeField] GameObject Floor;
     [SerializeField] GameObject Wall;
     [SerializeField] GameObject Barrel;
-    [SerializeField] GameObject CheckPoint;
 
     [SerializeField] string Difficulty;
 
@@ -33,15 +32,13 @@ public class LevelGen : MonoBehaviour
     private List<GameObject> _Clones;
     private System.Random rn;
 
-    public static int CheckPoints { get; set; }
+    public static int Platforms { get; set; }
 
     private void Awake()
     {
         rn = new System.Random();
         _PlatformPosition = new List<Vector3>();
         _Clones = new List<GameObject>();
-
-        CheckPoints = 0;
 
         GenerateLevel();
 
@@ -76,17 +73,16 @@ public class LevelGen : MonoBehaviour
     }
     void ReGenerateLevel()
     {
-        CheckPoints = 0;
         DeleteClones();
         GenerateLevel();
     }
     void GenerateLevel()
     {
         GetComponent<DifficultyManager>().CalDificulty(this, Difficulty);
+        Platforms = _PlatformNumber - 1;
         GenerateBoarder();
         GenerateFloor();
         GenerateBarrel();
-        GenerateCheckPoint();
     }
     void DeleteClones()
     {
@@ -111,7 +107,7 @@ public class LevelGen : MonoBehaviour
     void GenerateFloor()
     {
         for (int s = _PlatformNumber; s > 0; s--)
-        { 
+        {
             int x = rn.Next(1, ((Convert.ToInt32(_WallXOffset) * 2) / 20) + 1);
 
             switch (x)
@@ -175,26 +171,6 @@ public class LevelGen : MonoBehaviour
                     _Clones.Add(Instantiate(Barrel, new Vector3((position.x - (_PlatformSize / 2)) + (x * (float)(Convert.ToDouble(s) - 0.5)), position.y, 0), Barrel.transform.rotation));
                 }
             }
-        }
-    }
-    void GenerateCheckPoint()
-    {
-        foreach (var position in _PlatformPosition)
-        {
-            if(position.x == 20)
-            {
-                _Clones.Add(Instantiate(CheckPoint, new Vector3((position.x + (_PlatformSize / 2)) - _CheckPointXOffset, (position.y - _BarrelYOffset) + _CheckPointYOffset, 0), CheckPoint.transform.rotation));
-                CheckPoints = CheckPoints + 1;
-            }
-            if(position.x == -20)
-            {
-                _Clones.Add(Instantiate(CheckPoint, new Vector3((position.x - (_PlatformSize / 2)) + _CheckPointXOffset, (position.y - _BarrelYOffset) + _CheckPointYOffset, 0), CheckPoint.transform.rotation));
-                CheckPoints = CheckPoints + 1;
-            }
-            //if(position.x == 0)
-            //{
-            //    _Clones.Add(Instantiate(CheckPoint, new Vector3(0, (position.y - _BarrelYOffset + 1) + _CheckPointYOffset, 0), CheckPoint.transform.rotation));
-            //}
         }
     }
 }

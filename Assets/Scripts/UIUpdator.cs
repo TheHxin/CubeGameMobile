@@ -6,7 +6,6 @@ using TMPro;
 public class UIUpdator : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI _TextScore;
-
     [SerializeField] GameObject _Player;
 
     private PlayerLogic _PlayerLogic;
@@ -17,6 +16,6 @@ public class UIUpdator : MonoBehaviour
     }
     private void Update()
     {
-        _TextScore.text = _PlayerLogic.Score.ToString() + "|" + LevelGen.CheckPoints.ToString();
+        _TextScore.text = _PlayerLogic.Score.ToString() + "|" + LevelGen.Platforms.ToString();
     }
 }

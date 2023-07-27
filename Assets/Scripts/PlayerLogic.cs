@@ -8,13 +8,18 @@ public class PlayerLogic : MonoBehaviour
 {
     [SerializeField] GameObject _ScriptHolder;
 
-    public int Score;
-
     private MenuLoader _menuLoader;
+    private LevelGen _levelGen;
+    private bool _flagFirst;
+    public int Score;
     
     private void Awake()
     {
-        _menuLoader = _ScriptHolder.GetComponent<MenuLoader>();   
+        Score = 0;
+        _flagFirst = true;
+
+        _menuLoader = _ScriptHolder.GetComponent<MenuLoader>();
+        _levelGen = _ScriptHolder.GetComponent<LevelGen>();
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -22,10 +27,21 @@ public class PlayerLogic : MonoBehaviour
         {
             _menuLoader.LoseMenu();
         }
+        if(collision.gameObject.tag == "floor")
+        {
+            if(_flagFirst == false)
+            {
+                Score++;
+            }
+            else
+            {
+                _flagFirst = false;
+            }
+        }
     }
     private void Update()
     {
-        if(Score == LevelGen.CheckPoints)
+        if(Score == LevelGen.Platforms)
         {
             _menuLoader.WinMenu();
         }

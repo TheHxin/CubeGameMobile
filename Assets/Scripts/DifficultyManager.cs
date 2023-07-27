@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class DifficultyManager : MonoBehaviour
 {
-    
-
-    public void CalDificulty(LevelGen lg,string Dificulty)
+    public void CalDificulty(LevelGen lg, string Dificulty)
     {
         int[] bn;
         int[] sc;
