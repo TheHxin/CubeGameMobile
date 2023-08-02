@@ -11,23 +11,11 @@ public class MenuLoader : MonoBehaviour
     }
     public void Play()
     {
-        SceneManager.LoadScene("DifficultySelectorMenu");
+        SceneManager.LoadScene("Game");
     }
     public void Option()
     {
         SceneManager.LoadScene("Option");
-    }
-    public void Easy()
-    {
-        SceneManager.LoadScene("Easy");
-    }
-    public void Medium()
-    {
-        SceneManager.LoadScene("Medium");
-    }
-    public void Hard()
-    {
-        SceneManager.LoadScene("Hard");
     }
     public void Exit()
     {

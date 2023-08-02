@@ -13,9 +13,6 @@ public class LevelGen : MonoBehaviour
     [SerializeField] GameObject Wall;
     [SerializeField] GameObject Barrel;
 
-    [Header("Difficulty")]
-    [SerializeField] string DifficultyLevel = "easy";
-
     [Header("Level Generation Setting")]
     [SerializeField] float _PlatformSize = 20f;
     [SerializeField] float _PlatformSpawnSpace = 10f;
@@ -25,10 +22,11 @@ public class LevelGen : MonoBehaviour
     [Header("Player Spwan Setting")]
     [SerializeField] float _PlayerSpawnYOffset = 2f;
 
-    
+
     [HideInInspector] public int _PlatformNumber;
     [HideInInspector] public int[] _BarrelNumber;
     [HideInInspector] public int[] _PlatformSkipChance;
+    [HideInInspector] public string DifficultyLevel;
 
     private Vector3 _FirstPosition;
     private List<Vector3> _PlatformPosition;
@@ -37,37 +35,32 @@ public class LevelGen : MonoBehaviour
 
     private void Awake()
     {
-        rn = new System.Random();
         _PlatformPosition = new List<Vector3>();
         _Clones = new List<GameObject>();
-
-        GenerateLevel();
-
-        var PlayerSpawner = GetComponent<PlayerSpawner>();
-        PlayerSpawner.Spawn(_FirstPosition);
+        rn = new System.Random();
     }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
             ReGenerateLevel();
-
-            var PlayerSpawner = GetComponent<PlayerSpawner>();
-            PlayerSpawner.Spawn(_FirstPosition);
         }
     }
+    public void GenerateLevel()
+    {
+        GetComponent<DifficultyManager>().CalDificulty(this, DifficultyLevel);
 
+        GenerateBoarder();
+        GenerateFloor();
+        GenerateBarrel();
+
+        var PlayerSpawner = GetComponent<PlayerSpawner>();
+        PlayerSpawner.Spawn(_FirstPosition);
+    }
     void ReGenerateLevel()
     {
         DeleteClones();
         GenerateLevel();
-    }
-    void GenerateLevel()
-    {
-        GetComponent<DifficultyManager>().CalDificulty(this, DifficultyLevel);
-        GenerateBoarder();
-        GenerateFloor();
-        GenerateBarrel();
     }
     void DeleteClones()
     {

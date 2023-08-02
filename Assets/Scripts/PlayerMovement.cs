@@ -54,6 +54,7 @@ public class PlayerMovement : MonoBehaviour
 
         Physics2D.gravity = new Vector2(_Rt.x * _Sensitivity, _GravityAccelerationConstant);
         _Cam.transform.rotation = Quaternion.Lerp(_Cam.transform.rotation, Quaternion.Euler(0, 0, _Rt.x * _Camrotatesens), _Camrotatespeed * Time.deltaTime);
+        LimitVelocity();
     }
 
     string SwipeUp()
@@ -77,6 +78,11 @@ public class PlayerMovement : MonoBehaviour
         }
 
         return "null";
+    }
+    void LimitVelocity()
+    {
+        float velocity = Mathf.Clamp(_Rigidbody2D.velocity.x, -35f, 35f);
+        _Rigidbody2D.velocity = new Vector2(velocity,_Rigidbody2D.velocity.y);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

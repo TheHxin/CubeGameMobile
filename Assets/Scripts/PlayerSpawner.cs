@@ -16,6 +16,7 @@ public class PlayerSpawner : MonoBehaviour
     {
         var camera = _Camera.GetComponent<CamerManager>();
         camera.CameraView();
+
         _Player.transform.position = position;
     }
 }
