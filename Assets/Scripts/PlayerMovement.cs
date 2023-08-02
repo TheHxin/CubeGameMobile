@@ -6,82 +6,71 @@ using UnityEngine.EventSystems;
 
 public class PlayerMovement : MonoBehaviour
 {
-    #region Fields
-    public Camera _cam;
-    [SerializeField] float _camrotatespeed;
-    [SerializeField] float _camrotatesens;
-    [SerializeField] float _sensitivity;
-    [SerializeField] float _speed;
-    [SerializeField] float _force;
+    [Header("Camera Rotation Setting")]
+    [SerializeField] float _Camrotatespeed;
+    [SerializeField] float _Camrotatesens;
 
-    Rigidbody2D _rigidbody2D;
-    Vector2 _starttouch;
-    Vector2 _endtouch;
-    Vector3 _rt;
-    bool _grounded;
-    #endregion
-    #region Flow
+    [Header("Player Jump Setting")]
+    [SerializeField] float _JumpForce;
+
+    [Header("Gravity Setting")]
+    [SerializeField] float _Sensitivity;
+    [SerializeField] float _GravityAccelerationConstant = -9.8f;
+
+    private Camera _Cam;
+    private Rigidbody2D _Rigidbody2D;
+
+    private Vector2 _Starttouch;
+    private Vector2 _Endtouch;
+    private Vector3 _Rt;
+
+    private bool _Grounded;
+
+    private void Awake()
+    {
+        _Rigidbody2D = GetComponent<Rigidbody2D>();
+        _Cam = GameObject.Find("MainCamera").GetComponent<Camera>();
+    }
     void Start()
     {
         Screen.sleepTimeout = 0;
-        _grounded = true;
         Input.gyro.enabled = true;
-        _rigidbody2D = GetComponent<Rigidbody2D>();
+
+        _Grounded = true;
     }
     private void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    _rigidbody2D.AddForce(new Vector2(0, _force), ForceMode2D.Impulse);
-        //}
+        string SwipState = SwipeUp();
 
-        string state = Swipe();
-
-        if (state == "up" && _grounded)
+        if (SwipState == "up" && _Grounded)
         {
-            _rigidbody2D.AddForce(new Vector2(0, _force), ForceMode2D.Impulse);
-            _grounded = false;
+            _Rigidbody2D.AddForce(new Vector2(0, _JumpForce), ForceMode2D.Impulse);
+            _Grounded = false;
         }
     }
     void FixedUpdate()
     {
-        _rt = Input.acceleration;
+        _Rt = Input.acceleration;
 
-        Physics2D.gravity = new Vector2(_rt.x * _speed * _sensitivity, -9.8f);
-        _cam.transform.rotation = Quaternion.Lerp(_cam.transform.rotation, Quaternion.Euler(0, 0, _rt.x * _camrotatesens), _camrotatespeed * Time.deltaTime);
+        Physics2D.gravity = new Vector2(_Rt.x * _Sensitivity, _GravityAccelerationConstant);
+        _Cam.transform.rotation = Quaternion.Lerp(_Cam.transform.rotation, Quaternion.Euler(0, 0, _Rt.x * _Camrotatesens), _Camrotatespeed * Time.deltaTime);
+    }
 
-    }
-    #endregion
-    #region LogicFunction
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "floor")
-        {
-            _grounded = true;
-        }
-    }
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "floor")
-        {
-            _grounded = false;
-        }
-    }
-    string Swipe()
+    string SwipeUp()
     {
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
-            _starttouch = Input.GetTouch(0).position;
+            _Starttouch = Input.GetTouch(0).position;
         }
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
         {
-            _endtouch = Input.GetTouch(0).position;
+            _Endtouch = Input.GetTouch(0).position;
 
-            if (_endtouch.y > _starttouch.y)
+            if (_Endtouch.y > _Starttouch.y)
             {
                 return "up";
             }
-            if (_endtouch.y < _starttouch.y)
+            if (_Endtouch.y < _Starttouch.y)
             {
                 return "down";
             }
@@ -89,22 +78,19 @@ public class PlayerMovement : MonoBehaviour
 
         return "null";
     }
-    void ResetGyro()
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        Input.gyro.enabled = false;
-        Input.gyro.enabled = true;
+        if (collision.gameObject.tag == "floor")
+        {
+            _Grounded = true;
+        }
     }
-    int GetMark(float value)
+    private void OnCollisionExit2D(Collision2D collision)
     {
-        if (value > 0)
+        if (collision.gameObject.tag == "floor")
         {
-            return 1;
+            _Grounded = false;
         }
-        if (value < 0)
-        {
-            return -1;
-        }
-        return 0;
     }
-    #endregion
 }

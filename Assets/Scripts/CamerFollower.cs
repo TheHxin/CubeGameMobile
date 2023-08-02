@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class CamerFollower : MonoBehaviour
 {
-    #region Fields
-    public GameObject _player;
-    [SerializeField] float _time;
+    [SerializeField] float Time;
 
     private Vector3 _dampVelocity = Vector3.zero;
-    #endregion
-    #region Flow
+    private GameObject _player;
+
+    private void Awake()
+    {
+        _player = GameObject.Find("Player");
+    }
     void Update()
     {
-        transform.position = Vector3.SmoothDamp(transform.position, new Vector3(_player.transform.position.x, _player.transform.position.y, transform.position.z), ref _dampVelocity, _time);
+        transform.position = Vector3.SmoothDamp(transform.position, new Vector3(_player.transform.position.x, _player.transform.position.y, transform.position.z), ref _dampVelocity, Time);
     }
-    #endregion
 }

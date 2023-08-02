@@ -9,21 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/_Menu/MainMenu.unity
     guid: f0f2efff3dd4d17428e45d4c3a32ca9c
   - enabled: 1
-    path: Assets/Scenes/_Menu/DifficultySelectorMenu.unity
-    guid: cc1a7f085b5158c46801d66e0ad412b1
-  - enabled: 1
-    path: Assets/Scenes/_Menu/LoseMenu.unity
-    guid: 1f4aada9de908f640b45c42cfa8a38a5
-  - enabled: 1
-    path: Assets/Scenes/_Menu/WinMenu.unity
-    guid: 3256ff2fa0f003c44973832ec9ba707e
-  - enabled: 1
-    path: Assets/Scenes/_Game/Easy.unity
+    path: Assets/Scenes/_Game/Game.unity
     guid: 9d688d81b4e2b51458426849dc3bf030
-  - enabled: 1
-    path: Assets/Scenes/_Game/Medium.unity
-    guid: e6bbfb87b600cb9478bbb5c78a0f9b52
-  - enabled: 1
-    path: Assets/Scenes/_Game/Hard.unity
-    guid: 004a8183a6e56d043807eb9d6d4fb6de
   m_configObjects: {}

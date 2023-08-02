@@ -8,29 +8,32 @@ using UnityEngine;
 
 public class LevelGen : MonoBehaviour
 {
+    [Header("GameObjects")]
     [SerializeField] GameObject Floor;
     [SerializeField] GameObject Wall;
     [SerializeField] GameObject Barrel;
 
-    [SerializeField] string Difficulty;
+    [Header("Difficulty")]
+    [SerializeField] string DifficultyLevel = "easy";
 
-    [SerializeField] float _PlayerSpawnYOffset = 2f;
-
+    [Header("Level Generation Setting")]
     [SerializeField] float _PlatformSize = 20f;
     [SerializeField] float _PlatformSpawnSpace = 10f;
-    [SerializeField] float _WallXOffset;
     [SerializeField] float _BarrelYOffset = 0.75f;
+    [SerializeField] float _WallXOffset;
 
-    public int _PlatformNumber;
-    public int[] _BarrelNumber;
-    public int[] _PlatformSkipChance;
+    [Header("Player Spwan Setting")]
+    [SerializeField] float _PlayerSpawnYOffset = 2f;
+
+    
+    [HideInInspector] public int _PlatformNumber;
+    [HideInInspector] public int[] _BarrelNumber;
+    [HideInInspector] public int[] _PlatformSkipChance;
 
     private Vector3 _FirstPosition;
     private List<Vector3> _PlatformPosition;
     private List<GameObject> _Clones;
     private System.Random rn;
-
-    public static int Platforms { get; set; }
 
     private void Awake()
     {
@@ -53,22 +56,7 @@ public class LevelGen : MonoBehaviour
             PlayerSpawner.Spawn(_FirstPosition);
         }
     }
-    bool PlatformSkip()
-    {
-        int x = 2;
-        int res = rn.Next(_PlatformSkipChance[0], _PlatformSkipChance[1]);
 
-        if (res == x)
-        {
-            return true;
-        }
-        if (res != x)
-        {
-            return false;
-        }
-
-        return false;
-    }
     void ReGenerateLevel()
     {
         DeleteClones();
@@ -76,8 +64,7 @@ public class LevelGen : MonoBehaviour
     }
     void GenerateLevel()
     {
-        GetComponent<DifficultyManager>().CalDificulty(this, Difficulty);
-        Platforms = _PlatformNumber - 1;
+        GetComponent<DifficultyManager>().CalDificulty(this, DifficultyLevel);
         GenerateBoarder();
         GenerateFloor();
         GenerateBarrel();
@@ -170,5 +157,22 @@ public class LevelGen : MonoBehaviour
                 }
             }
         }
+    }
+
+    bool PlatformSkip()
+    {
+        int x = 2;
+        int res = rn.Next(_PlatformSkipChance[0], _PlatformSkipChance[1]);
+
+        if (res == x)
+        {
+            return true;
+        }
+        if (res != x)
+        {
+            return false;
+        }
+
+        return false;
     }
 }

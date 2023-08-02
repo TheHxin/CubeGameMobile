@@ -4,36 +4,35 @@ using UnityEngine;
 
 public class CamerManager : MonoBehaviour
 {
+    [Header("Camera FOV_Lerp Setting")]
     [SerializeField] float InitialSize = 70f;
     [SerializeField] float EndSize = 10f;
     [SerializeField] float Duration = 2f;
 
-    private Camera cam;
-    private bool SetFOVRunning = false;
+    private Camera _Cam;
+    private bool _LerpFOVRunning = false;
 
     public void CameraView()
     {
-        if (SetFOVRunning)
-        {
-            StopAllCoroutines();
-        }
-        cam = GetComponent<Camera>();
-        cam.orthographicSize = InitialSize;
+        _Cam = GetComponent<Camera>();
+
+        if (_LerpFOVRunning) StopAllCoroutines();
+        _Cam.orthographicSize = InitialSize;
         transform.position = new Vector3(0, 0, -10);
 
-        StartCoroutine(SetCamerFOV(InitialSize, EndSize, Duration));
+        StartCoroutine(LerpCamerFOV(InitialSize, EndSize, Duration));
     }
-    IEnumerator SetCamerFOV(float v_start, float v_end, float duration)
+    IEnumerator LerpCamerFOV(float fov_start, float fov_end, float duration)
     {
-        SetFOVRunning = true;
+        _LerpFOVRunning = true;
         float elapsed = 0.0f;
         while (elapsed < duration)
         {
-            cam.orthographicSize = Mathf.Lerp(v_start, v_end, elapsed / duration);
+            _Cam.orthographicSize = Mathf.Lerp(fov_start, fov_end, elapsed / duration);
             elapsed += Time.deltaTime;
             yield return null;
         }
-        cam.orthographicSize = v_end;
-        SetFOVRunning = false;
+        _Cam.orthographicSize = fov_end;
+        _LerpFOVRunning = false;
     }
 }

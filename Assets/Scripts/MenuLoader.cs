@@ -9,14 +9,6 @@ public class MenuLoader : MonoBehaviour
     {
         SceneManager.LoadScene("MainMenu");
     }
-    public void WinMenu()
-    {
-        SceneManager.LoadScene("WinMenu");
-    }
-    public void LoseMenu()
-    {
-        SceneManager.LoadScene("LoseMenu");
-    }
     public void Play()
     {
         SceneManager.LoadScene("DifficultySelectorMenu");
