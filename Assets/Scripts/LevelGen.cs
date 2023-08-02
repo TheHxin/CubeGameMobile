@@ -19,8 +19,6 @@ public class LevelGen : MonoBehaviour
     [SerializeField] float _PlatformSize = 20f;
     [SerializeField] float _PlatformSpawnSpace = 10f;
     [SerializeField] float _WallXOffset;
-    [SerializeField] float _CheckPointXOffset = 1f;
-    [SerializeField] float _CheckPointYOffset = 1f;
     [SerializeField] float _BarrelYOffset = 0.75f;
 
     public int _PlatformNumber;
