@@ -18,5 +18,6 @@ public class PlayerSpawner : MonoBehaviour
         camera.CameraView();
 
         _Player.transform.position = position;
+        Time.timeScale = 1;
     }
 }

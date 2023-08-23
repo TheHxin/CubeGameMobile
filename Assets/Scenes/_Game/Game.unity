@@ -214,6 +214,7 @@ GameObject:
   - component: {fileID: 336932290}
   - component: {fileID: 336932291}
   - component: {fileID: 336932293}
+  - component: {fileID: 336932294}
   m_Layer: 0
   m_Name: ScriptHolder
   m_TagString: Untagged
@@ -236,11 +237,16 @@ MonoBehaviour:
   Floor: {fileID: 5230781953175097551, guid: 7454438eb3a55444e9a72f075cf6398a, type: 3}
   Wall: {fileID: 99590756751692655, guid: aa6ed14505c48a64596d21b15a8abaa4, type: 3}
   Barrel: {fileID: 1103669786374548719, guid: f872a69d2e73c4b4892e80d83518d68b, type: 3}
+  End: {fileID: 5230781953175097551, guid: 1535db46afe05eb45b9037c255a6038b, type: 3}
+  Coin: {fileID: 4392215966962569054, guid: 6cb25eb4a45c6d74bb26477ed9467a42, type: 3}
   _PlatformSize: 20
   _PlatformSpawnSpace: 10
   _BarrelYOffset: 0.75
   _WallXOffset: 30
+  _CoinXOffset: 1.5
+  _CoinYOffset: 1.5
   _PlayerSpawnYOffset: 2
+  CoinCount: 0
   _PlatformNumber: 0
   _BarrelNumber: 0100000004000000
   _PlatformSkipChance: 0100000003000000
@@ -313,6 +319,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61d98490053208e47bf29921c0c93bf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &336932294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 336932286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9eae57526d4c5b84aa6f2915284bd0e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &344362045
 GameObject:
   m_ObjectHideFlags: 0
@@ -331,7 +349,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &344362046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -919,7 +937,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -1430,8 +1448,8 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
-  m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_ScreenMatchMode: 1
+  m_MatchWidthOrHeight: 0.56
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96

@@ -43,6 +43,8 @@ public class UIManager : MonoBehaviour
 
             Time.timeScale = 0;
         }
+
+        _TextScore.text = _Player.Score.ToString() + " | " + _LevelGen.CoinCount.ToString();
     }
 
     private IEnumerator Wait(int time)
@@ -71,6 +73,8 @@ public class UIManager : MonoBehaviour
     public void Back()
     {
         //TODO: Save score and game state
+        PlayerPrefs.SetInt("Score", _Player.Score);
+        PlayerPrefs.Save();
 
         _MenuLoader.MainMenu();
     }

@@ -17,6 +17,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float _Sensitivity;
     [SerializeField] float _GravityAccelerationConstant = -9.8f;
 
+    [HideInInspector] public bool DoMove;
+
     private Camera _Cam;
     private Rigidbody2D _Rigidbody2D;
 
@@ -29,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         _Rigidbody2D = GetComponent<Rigidbody2D>();
+        _Rigidbody2D.gravityScale = 0;
         _Cam = GameObject.Find("MainCamera").GetComponent<Camera>();
     }
     void Start()
@@ -37,28 +40,42 @@ public class PlayerMovement : MonoBehaviour
         Input.gyro.enabled = true;
 
         _Grounded = true;
+        DoMove = false;
     }
     private void Update()
     {
-        string SwipState = SwipeUp();
-
-        if (SwipState == "up" && _Grounded)
+        if (DoMove)
         {
-            _Rigidbody2D.AddForce(new Vector2(0, _JumpForce), ForceMode2D.Impulse);
-            _Grounded = false;
+            string SwipState = SwipeUp();
+
+            if (SwipState == "up" && _Grounded)
+            {
+                _Rigidbody2D.AddForce(new Vector2(0, _JumpForce), ForceMode2D.Impulse);
+                _Grounded = false;
+
+            }
         }
     }
     void FixedUpdate()
     {
-        _Rt = Input.acceleration;
-
-        Physics2D.gravity = new Vector2(_Rt.x * _Sensitivity, _GravityAccelerationConstant);
-        _Cam.transform.rotation = Quaternion.Lerp(_Cam.transform.rotation, Quaternion.Euler(0, 0, _Rt.x * _Camrotatesens), _Camrotatespeed * Time.deltaTime);
-        LimitVelocity();
+        if (DoMove)
+        {
+            _Rigidbody2D.gravityScale = 1;
+            _Rt = Input.acceleration;
+            
+            Physics2D.gravity = new Vector2(_Rt.x * _Sensitivity, _GravityAccelerationConstant);
+            _Cam.transform.rotation = Quaternion.Lerp(_Cam.transform.rotation, Quaternion.Euler(0, 0, _Rt.x * _Camrotatesens), _Camrotatespeed * Time.deltaTime);
+            LimitVelocity();
+        }
     }
 
     string SwipeUp()
     {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            return "up";
+        }
+
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
             _Starttouch = Input.GetTouch(0).position;
@@ -82,7 +99,7 @@ public class PlayerMovement : MonoBehaviour
     void LimitVelocity()
     {
         float velocity = Mathf.Clamp(_Rigidbody2D.velocity.x, -35f, 35f);
-        _Rigidbody2D.velocity = new Vector2(velocity,_Rigidbody2D.velocity.y);
+        _Rigidbody2D.velocity = new Vector2(velocity, _Rigidbody2D.velocity.y);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

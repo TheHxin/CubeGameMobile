@@ -12,17 +12,21 @@ public class LevelGen : MonoBehaviour
     [SerializeField] GameObject Floor;
     [SerializeField] GameObject Wall;
     [SerializeField] GameObject Barrel;
+    [SerializeField] GameObject End;
+    [SerializeField] GameObject Coin;
 
     [Header("Level Generation Setting")]
     [SerializeField] float _PlatformSize = 20f;
     [SerializeField] float _PlatformSpawnSpace = 10f;
     [SerializeField] float _BarrelYOffset = 0.75f;
     [SerializeField] float _WallXOffset;
+    [SerializeField] float _CoinXOffset;
+    [SerializeField] float _CoinYOffset;
 
     [Header("Player Spwan Setting")]
     [SerializeField] float _PlayerSpawnYOffset = 2f;
 
-
+    [HideInInspector] public int CoinCount;
     [HideInInspector] public int _PlatformNumber;
     [HideInInspector] public int[] _BarrelNumber;
     [HideInInspector] public int[] _PlatformSkipChance;
@@ -49,13 +53,18 @@ public class LevelGen : MonoBehaviour
     public void GenerateLevel()
     {
         GetComponent<DifficultyManager>().CalDificulty(this, DifficultyLevel);
+        CoinCount = 0;
 
         GenerateBoarder();
         GenerateFloor();
         GenerateBarrel();
+        GenerateCoin();
 
         var PlayerSpawner = GetComponent<PlayerSpawner>();
+        var PlayerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
+
         PlayerSpawner.Spawn(_FirstPosition);
+        PlayerMovement.DoMove = true;
     }
     void ReGenerateLevel()
     {
@@ -133,6 +142,8 @@ public class LevelGen : MonoBehaviour
                     break;
             }
         }
+
+        _Clones.Add(Instantiate(End, new Vector3(0, ((_PlatformNumber + 0.5f) * -_PlatformSpawnSpace), 0), End.transform.rotation));
     }
     void GenerateBarrel()
     {
@@ -147,6 +158,36 @@ public class LevelGen : MonoBehaviour
                 {
                     float x = _PlatformSize / barrelNumber;
                     _Clones.Add(Instantiate(Barrel, new Vector3((position.x - (_PlatformSize / 2)) + (x * (float)(Convert.ToDouble(s) - 0.5)), position.y, 0), Barrel.transform.rotation));
+                }
+            }
+        }
+    }
+    void GenerateCoin()
+    {
+        foreach (var position in _PlatformPosition)
+        {
+            if (position.x == 20)
+            {
+                _Clones.Add(Instantiate(Coin, new Vector3((position.x + (_PlatformSize / 2)) - _CoinXOffset, (position.y - _BarrelYOffset) + _CoinYOffset, 0), Coin.transform.rotation));
+                CoinCount++;
+            }
+            if (position.x == -20)
+            {
+                _Clones.Add(Instantiate(Coin, new Vector3((position.x - (_PlatformSize / 2)) + _CoinXOffset, (position.y - _BarrelYOffset) + _CoinYOffset, 0), Coin.transform.rotation));
+                CoinCount++;
+            }
+            if (position.x == 0)
+            {
+                int x = rn.Next(1, 2);
+                if (x == 1)
+                {
+                    _Clones.Add(Instantiate(Coin, new Vector3((position.x - (_PlatformSize / 2)) + _CoinXOffset, (position.y - _BarrelYOffset) + _CoinYOffset, 0), Coin.transform.rotation));
+                    CoinCount++;
+                }
+                else
+                {
+                    _Clones.Add(Instantiate(Coin, new Vector3((position.x + (_PlatformSize / 2)) - _CoinXOffset, (position.y - _BarrelYOffset) + _CoinYOffset, 0), Coin.transform.rotation));
+                    CoinCount++;
                 }
             }
         }

@@ -8,6 +8,8 @@ TagManager:
   - exit
   - wall
   - barrel
+  - end
+  - coin
   layers:
   - Default
   - TransparentFX
